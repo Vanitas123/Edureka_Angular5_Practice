@@ -2,7 +2,7 @@ import {Component} from '@angular/core';
 
 @Component({
     selector:'my-first-app',
-    template:`<div> my first app </div>`
+    templateUrl:'./app.html'
 })
 
 export class MyFirstComponent {
