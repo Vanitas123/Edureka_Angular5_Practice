@@ -1,33 +1,61 @@
 <div class="container">
     <div class="panel panel-primary">
-        <div class="panel-heading">Products List</div>
+        <div class="panel-heading">{{title}}</div>
         <div class="panel-body">
             <div class="row">
                 <div class="col-md-2">
-                    Filter By
+                        Filter By {{filterProduct}}
                 </div>
-                <div>
-                    <input type="text" placeholder="Enter text here..." />
+                <div class="col-md-4">
+                        <input type="text" [(ngModel)] ="filterProduct"
+                        placeholder="Enter your text..."/>
                 </div>
             </div>
-            <div class="row">
+            <div class="row" *ngIf="products && products.length">
+                <!-- Grid view using table tag  -->
                 <div class="table-responsive">
                     <table class="table table-hover">
                         <thead>
                             <tr>
+                                <th>
+                                    <button class="btn btn-success" (click)="toggleImage()">
+                                        {{showImage?"Hide Image":"Show Image"}}
+                                    </button>
+                                    <button class="btn btn-success"(click)="toggleView()">
+                                        {{isGridView?"List View":"Grid View"}}
+                                    </button>
+                                </th>
                                 <th>Name</th>
-                                <th>Description</th>
+                                <th>Code</th>
+                                <th>Date</th>
                                 <th>Price</th>
+                                <th>StarRating</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <tr *ngFor="let product of products">
-                                <td>{{product.productName}}</td>
-                                <td>{{product.Description}}</td>
-                                <td>{{product.Price}}</td>
+                        <tbody *ngIf="isGridView">
+                            <tr *ngFor="let product of products|productFilter:filterProduct">
+                                     <td><img [src]="product.imageUrl" *ngIf="showImage"/></td>
+                                     <td>{{product.productName|uppercase}}</td>
+                                     <td>{{product.productCode|lowercase}}</td>
+                                     <td>{{product.releaseDate|date}}</td>
+                                     <td>{{product.price|currency:"INR"}}</td>
+                                     <td>{{product.starRating}}</td>
                             </tr>
                         </tbody>
-                    </table> 
+                    </table>
+                    <!-- Grid view using table tag  ends here -->
+                    <!-- List View -->
+                    <div class="list-group" *ngIf="!isGridView">
+                        <ul class="list-group"  *ngFor="let product of products|productFilter:filterProduct">
+                                <li class="list-group-item">Name : {{product.productName|uppercase}}</li>
+                                <li class="list-group-item">Image :<img [src]="product.imageUrl" *ngIf="showImage"/></li>
+                                <li class="list-group-item">Code :{{product.productCode|lowercase}}</li>
+                                <li class="list-group-item">Date : {{product.releaseDate}}</li>
+                                <li class="list-group-item">Price : {{product.price | currency:"INR"}}</li>
+                                <li class="list-group-item">StarRating :{{product.starRating}}</li>
+                        </ul>
+                    </div>
+                    <!-- List View Ends here -->
                 </div>
             </div>
 
