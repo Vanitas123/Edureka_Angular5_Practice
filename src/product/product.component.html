@@ -34,12 +34,12 @@
                         </thead>
                         <tbody *ngIf="isGridView">
                             <tr *ngFor="let product of products|productFilter:filterProduct">
-                                     <td><img [src]="product.imageUrl" *ngIf="showImage"/></td>
+                                     <td><img [src]="product.imageUrl"  *ngIf="showImage" [style.width.px]="imgWidth"/></td>
                                      <td>{{product.productName|uppercase}}</td>
                                      <td>{{product.productCode|lowercase}}</td>
                                      <td>{{product.releaseDate|date}}</td>
                                      <td>{{product.price|currency:"INR"}}</td>
-                                     <td>{{product.starRating}}</td>
+                                     <td><star-ratings [rating]="product.starRating" (ratingClicked)="onRatingClicked($event)" ></star-ratings></td>
                             </tr>
                         </tbody>
                     </table>
@@ -48,11 +48,11 @@
                     <div class="list-group" *ngIf="!isGridView">
                         <ul class="list-group"  *ngFor="let product of products|productFilter:filterProduct">
                                 <li class="list-group-item">Name : {{product.productName|uppercase}}</li>
-                                <li class="list-group-item">Image :<img [src]="product.imageUrl" *ngIf="showImage"/></li>
+                                <li class="list-group-item">Image :<img [src]="product.imageUrl"  [style.width.px]="imgWidth" *ngIf="showImage"/></li>
                                 <li class="list-group-item">Code :{{product.productCode|lowercase}}</li>
                                 <li class="list-group-item">Date : {{product.releaseDate}}</li>
                                 <li class="list-group-item">Price : {{product.price | currency:"INR"}}</li>
-                                <li class="list-group-item">StarRating :{{product.starRating}}</li>
+                                <li class="list-group-item">StarRating :<star-ratings [rating]="product.starRating" ></star-ratings></li>
                         </ul>
                     </div>
                     <!-- List View Ends here -->
